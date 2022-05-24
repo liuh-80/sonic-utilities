@@ -4,7 +4,7 @@ import re
 import subprocess
 import sys
 import time
-import utilities_common.cli as clicommon
+from utilities_common.cli import MutuallyExclusiveOption
 from urllib.request import urlopen, urlretrieve
 
 import click
@@ -492,14 +492,14 @@ def sonic_installer():
               help='Skip setup temporary SWAP memory used for installation')
 @click.option('--swap-mem-size', default=1024, type=int, show_default='1024 MiB',
               help='SWAP memory space size', callback=validate_positive_int,
-              cls=clicommon.MutuallyExclusiveOption, mutually_exclusive=['skip_setup_swap'])
+              cls=MutuallyExclusiveOption, mutually_exclusive=['skip_setup_swap'])
 @click.option('--total-mem-threshold', default=2048, type=int, show_default='2048 MiB',
               help='If system total memory is lower than threshold, setup SWAP memory',
-              cls=clicommon.MutuallyExclusiveOption, mutually_exclusive=['skip_setup_swap'],
+              cls=MutuallyExclusiveOption, mutually_exclusive=['skip_setup_swap'],
               callback=validate_positive_int)
 @click.option('--available-mem-threshold', default=1200, type=int, show_default='1200 MiB',
               help='If system available memory is lower than threhold, setup SWAP memory',
-              cls=clicommon.MutuallyExclusiveOption, mutually_exclusive=['skip_setup_swap'],
+              cls=MutuallyExclusiveOption, mutually_exclusive=['skip_setup_swap'],
               callback=validate_positive_int)
 @click.argument('url')
 def install(url, force, skip_platform_check=False, skip_migration=False, skip_package_migration=False,
